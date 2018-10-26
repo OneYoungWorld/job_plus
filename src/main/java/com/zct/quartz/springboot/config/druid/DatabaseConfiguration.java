@@ -37,8 +37,6 @@ import java.util.Properties;
  * @date 2017-04-15 22:54
  */
 @Configuration
-@EnableTransactionManagement
-@MapperScan(basePackages = { "com.zct.quartz.springboot.dao" },annotationClass = Repository.class)
 public class DatabaseConfiguration implements EnvironmentAware {
     @Resource
     private Environment environment;
@@ -95,7 +93,7 @@ public class DatabaseConfiguration implements EnvironmentAware {
         pageHelper.setProperties(props); //添加插件
         sqlSessionFactoryBean.setPlugins(new Interceptor[] { pageHelper });
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath*:mybatis-mapper/*Mapper.xml"));
+        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath*:com/zct/quartz/springboot/dao/mapper/**/*Mapper.xml"));
         return sqlSessionFactoryBean.getObject();
     }
 
