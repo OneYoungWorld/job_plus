@@ -1,0 +1,8 @@
+/target/
+/*.iml
+/.idea/
+/.idea/misc.xml
+/job-base/*.iml
+/job-executor-sample/xxl-job-executor-sample-springboot.iml
+/job-executor-sample/target/
+/job-base/target/
