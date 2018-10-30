@@ -3,9 +3,11 @@ package com.zct.quartz.springboot.core.util;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
@@ -18,23 +20,22 @@ import java.util.concurrent.Executors;
  * 邮件发送.Util
  * @author zct 2016-3-12 15:06:20
  */
+@Component
 public class MailUtil {
 	private static Logger logger = LoggerFactory.getLogger(MailUtil.class);
-	
-	private static String host;
-	private static String port;
-	private static String username;
-	private static String password;
-	private static String sendFrom;
-	private static String sendNick;
-	static{
-		host = PropertiesUtil.getString("xxl.job.mail.host");
-		port = PropertiesUtil.getString("xxl.job.mail.port");
-		username = PropertiesUtil.getString("xxl.job.mail.username");
-		password = PropertiesUtil.getString("xxl.job.mail.password");
-		sendFrom = PropertiesUtil.getString("xxl.job.mail.sendFrom");
-		sendNick = PropertiesUtil.getString("xxl.job.mail.sendNick");
-	}
+
+	@Value("${xxljobmall.host}")
+	private  String host;
+	@Value("${xxljobmall.port}")
+	private  String port;
+	@Value("${xxljobmall.username}")
+	private  String username;
+	@Value("${xxljobmall.password}")
+	private  String password;
+	@Value("${xxljobmall.sendFrom}")
+	private  String sendFrom;
+	@Value("${xxljobmall.sendNick}")
+	private  String sendNick;
 	
 	/**
 	<!-- spring mail sender -->
@@ -65,7 +66,7 @@ public class MailUtil {
 	 * @param attachments	: 附件
 	 */
 	@SuppressWarnings("null")
-	public static boolean sendMailSpring(String toAddress, String mailSubject, String mailBody, boolean mailBodyIsHtml,File[] attachments) {
+	public  boolean sendMailSpring(String toAddress, String mailSubject, String mailBody, boolean mailBodyIsHtml,File[] attachments) {
 		JavaMailSender javaMailSender = null;//ResourceBundle.getInstance().getJavaMailSender();
 		try {
 			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -108,7 +109,7 @@ public class MailUtil {
 	 * //@param inLineFile	: 内嵌文件
 	 * @param attachments	: 附件
 	 */
-	public static boolean sendMail (String toAddress, String mailSubject, String mailBody, 
+	public  boolean sendMail (String toAddress, String mailSubject, String mailBody,
 			boolean mailBodyIsHtml, File[] attachments){
         try {
 			// 创建邮件发送类 JavaMailSender (用于发送多元化邮件，包括附件，图片，html 等    )
@@ -152,29 +153,29 @@ public class MailUtil {
 		return false;
 	}
 	
-	static int total = 0;
-	public static void main(String[] args) {
-		
-		ExecutorService exec = Executors.newCachedThreadPool();
-		for (int i = 0; i < 20; i++) {
-			exec.execute(new Thread(new Runnable() {
-				@Override
-				public void run() {
-					while(total < 10){
-						String mailBody = "<html><head><meta http-equiv="
-								+ "Content-Type"
-								+ " content="
-								+ "text/html; charset=gb2312"
-								+ "></head><body><h1>新书快递通知</h1>你的新书快递申请已推送新书，请到<a href=''>空间"
-								+ "</a>中查看</body></html>";
-						
-						sendMail("ovono802302@163.com", "测试邮件", mailBody, false, null);
-						System.out.println(total);
-						total++;
-					}
-				}
-			}));
-		}
-	}
-	
+//	static int total = 0;
+//	public static void main(String[] args) {
+//
+//		ExecutorService exec = Executors.newCachedThreadPool();
+//		for (int i = 0; i < 20; i++) {
+//			exec.execute(new Thread(new Runnable() {
+//				@Override
+//				public void run() {
+//					while(total < 10){
+//						String mailBody = "<html><head><meta http-equiv="
+//								+ "Content-Type"
+//								+ " content="
+//								+ "text/html; charset=gb2312"
+//								+ "></head><body><h1>新书快递通知</h1>你的新书快递申请已推送新书，请到<a href=''>空间"
+//								+ "</a>中查看</body></html>";
+//
+//						sendMail("ovono802302@163.com", "测试邮件", mailBody, false, null);
+//						System.out.println(total);
+//						total++;
+//					}
+//				}
+//			}));
+//		}
+//	}
+//
 }

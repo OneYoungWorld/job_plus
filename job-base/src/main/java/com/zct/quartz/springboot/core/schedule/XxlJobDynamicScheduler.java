@@ -56,10 +56,9 @@ public  class XxlJobDynamicScheduler implements ApplicationContextAware {
 //		scheduler = new QuartzConfig().schedulerFactoryBean().getScheduler();
 //	}
 
-	// accessToken
     @Value("${xxl.job.accessToken}")
     private String accessToken;
-    // dao
+
     @Autowired
     public XxlJobLogDao xxlJobLogDao;
     @Autowired

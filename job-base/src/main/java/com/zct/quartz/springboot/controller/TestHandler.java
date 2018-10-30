@@ -1,13 +1,12 @@
 package com.zct.quartz.springboot.controller;
 
+import com.xxl.job.core.biz.model.ReturnT;
+import com.xxl.job.core.handler.IJobHandler;
+import com.xxl.job.core.handler.annotation.JobHandler;
+import com.xxl.job.core.log.XxlJobLogger;
 import com.zct.quartz.springboot.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.xxl.job.core.biz.model.ReturnT;
-import com.xxl.job.core.handler.IJobHandler;
-import com.xxl.job.core.handler.annotation.JobHander;
-import com.xxl.job.core.log.XxlJobLogger;
 
 /**
  * 
@@ -17,7 +16,7 @@ import com.xxl.job.core.log.XxlJobLogger;
  * @version V1.0
  */
 //value必须小写开头
-@JobHander(value = "testHandler")
+@JobHandler(value = "testHandler")
 @Service
 public class TestHandler extends IJobHandler {
     
@@ -25,7 +24,7 @@ public class TestHandler extends IJobHandler {
 	private TestService testService;
 	
     @Override
-    public ReturnT<String> execute(String... params) throws Exception {
+    public ReturnT<String> execute(String params) throws Exception {
         XxlJobLogger.log("--------- 调用测试接口开始--------- ");
         long startTime = System.currentTimeMillis();
         try {

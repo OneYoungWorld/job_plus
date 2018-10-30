@@ -115,9 +115,4 @@ public class AdminBizImpl implements AdminBiz {
         return ReturnT.SUCCESS;
     }
 
-    @Override
-    public ReturnT<String> triggerJob(int jobId) {
-        return xxlJobService.triggerJob(jobId);
-    }
-
 }

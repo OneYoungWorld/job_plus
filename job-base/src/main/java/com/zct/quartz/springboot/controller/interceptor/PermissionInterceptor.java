@@ -4,12 +4,14 @@ import com.zct.quartz.springboot.core.util.CookieUtil;
 import com.zct.quartz.springboot.core.util.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.zct.quartz.springboot.controller.annotation.PermessionLimit;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
@@ -22,12 +24,23 @@ import java.math.BigInteger;
 public class PermissionInterceptor extends HandlerInterceptorAdapter {
 	private static Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
 	public static final String LOGIN_IDENTITY_KEY = "LOGIN_IDENTITY";
-	public static final String LOGIN_IDENTITY_TOKEN;
-	static {
-		String username = PropertiesUtil.getString("xxl.job.login.username");
-		String password = PropertiesUtil.getString("xxl.job.login.password");
+	public static String LOGIN_IDENTITY_TOKEN;
+
+	@Value("${xxl.job.login.username}")
+	private String username;
+
+	@Value("${xxl.job.login.password}")
+	private String password;
+
+
+	@PostConstruct
+	public void before(){
 		String temp = username + "_" + password;
 		LOGIN_IDENTITY_TOKEN = new BigInteger(1, temp.getBytes()).toString(16);
+	}
+
+
+	static {
 	}
 
 	public static boolean login(HttpServletResponse response, boolean ifRemember){

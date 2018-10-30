@@ -8,6 +8,7 @@ import com.zct.quartz.springboot.service.XxlJobService;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,12 @@ import java.util.Map;
  */
 @Controller
 public class IndexController {
+
+    @Value("${xxl.job.login.username}")
+    private String username;
+
+    @Value("${xxl.job.login.password}")
+    private String password;
 
     @Autowired
     private XxlJobService xxlJobService;
@@ -67,8 +74,8 @@ public class IndexController {
     public ReturnT<String> loginDo(HttpServletRequest request, HttpServletResponse response, String userName, String password, String ifRemember) {
         if (!PermissionInterceptor.ifLogin(request)) {
             if (StringUtils.isNotBlank(userName) && StringUtils.isNotBlank(password)
-                    && PropertiesUtil.getString("xxl.job.login.username").equals(userName)
-                    && PropertiesUtil.getString("xxl.job.login.password").equals(password)) {
+                    && userName.equals(userName)
+                    && password.equals(password)) {
                 boolean ifRem = false;
                 if (StringUtils.isNotBlank(ifRemember) && "on".equals(ifRemember)) {
                     ifRem = true;
